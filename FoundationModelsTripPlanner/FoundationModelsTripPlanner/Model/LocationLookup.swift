@@ -15,7 +15,7 @@ final class LocationLookup {
     func performLookup(location: String) {
         Task {
             let item = await self.mapItem(atLocation: location)
-            if let location = item?.placemark.location {
+            if let location = item?.location {
                 self.temperatureString = await self.weather(atLocation: location)
             }
         }

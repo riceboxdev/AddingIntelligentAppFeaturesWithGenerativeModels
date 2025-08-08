@@ -69,7 +69,7 @@ private struct DayView: View {
                     landmarkMapItem: map.item
                 )
                 .onChange(of: plan.destination) { _, newValue in
-                    if let destination = newValue {
+                    if let destination = newValue, !destination.isEmpty {
                         map.performLookup(location: destination)
                     }
                 }

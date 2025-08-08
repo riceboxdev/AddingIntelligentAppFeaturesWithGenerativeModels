@@ -45,13 +45,11 @@ final class FindPointsOfInterestTool: Tool {
         lookupHistory.append(Lookup(history: arguments))
     }
     
-    func call(arguments: Arguments) async throws -> ToolOutput {
+    func call(arguments: Arguments) async throws -> String {
         // This sample app pulls some static data. Real-world apps can get creative.
         await recordLookup(arguments: arguments)
         let results = mapItems(arguments: arguments)
-        return ToolOutput(
-            "There are these \(arguments.pointOfInterest) in \(landmark.name): \(results.joined(separator: ", "))"
-        )
+        return "There are these \(arguments.pointOfInterest) in \(landmark.name): \(results.joined(separator: ", "))"
     }
     
     private func mapItems(arguments: Arguments) -> [String] {

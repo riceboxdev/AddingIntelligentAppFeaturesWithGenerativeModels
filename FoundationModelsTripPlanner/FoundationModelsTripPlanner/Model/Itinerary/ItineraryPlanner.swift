@@ -51,8 +51,8 @@ final class ItineraryPlanner {
     func suggestItinerary(dayCount: Int) async throws {
         let stream = session.streamResponse(
             generating: Itinerary.self,
-            options: GenerationOptions(sampling: .greedy),
-            includeSchemaInPrompt: false
+            includeSchemaInPrompt: false,
+            options: GenerationOptions(sampling: .greedy)
         ) {
             "Generate a \(dayCount)-day itinerary to \(landmark.name)."
             
@@ -63,7 +63,7 @@ final class ItineraryPlanner {
         }
 
         for try await partialResponse in stream {
-            itinerary = partialResponse
+            itinerary = partialResponse.content
         }
     }
 

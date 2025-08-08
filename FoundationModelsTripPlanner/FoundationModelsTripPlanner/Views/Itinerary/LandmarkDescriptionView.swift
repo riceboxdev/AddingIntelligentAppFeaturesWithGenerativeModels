@@ -12,13 +12,7 @@ import SwiftUI
 struct TaggingResponse: Equatable {
     @Guide(.count(5))
     @Guide(description: "Most important topics in the input text")
-    let tags: [Tag]
-    
-    @Generable
-    struct Tag: Equatable {
-        @Guide(description: "A catchy tag for the input text")
-        let text: String
-    }
+    let tags: [String]
 }
 
 struct LandmarkDescriptionView: View {
@@ -36,8 +30,8 @@ struct LandmarkDescriptionView: View {
             
             FlowLayout(alignment: .leading) {
                 if let tags = generatedTags?.tags {
-                    ForEach(tags) { tag in
-                        Text("#" + (tag.text ?? ""))
+                    ForEach(tags, id: \.self) { tag in
+                        Text("#" + tag)
                             .tagStyle()
                     }
                 }
@@ -60,7 +54,7 @@ struct LandmarkDescriptionView: View {
                     options: GenerationOptions(sampling: .greedy)
                 )
                 for try await newTags in stream {
-                    generatedTags = newTags
+                    generatedTags = newTags.content
                 }
             } catch {
                 Logging.general.error("\(error.localizedDescription)")
